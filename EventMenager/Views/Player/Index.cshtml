@@ -1,0 +1,52 @@
+﻿@model IEnumerable<EventMenager.Models.PlayerModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista zawodników</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success" >Dodaj zawodnika</a>
+</p>
+<table class="table">
+    <thead>
+        <tr width="80%">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirdth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirdth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td width="20%">
+                @Html.ActionLink("Edit", "Edit", new {  id=item.PlayerId  }, new {@class="btn btn-warning" }) 
+                @Html.ActionLink("Delete", "Delete", new {  id=item.PlayerId  }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

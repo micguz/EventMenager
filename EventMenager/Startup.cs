@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventMenager.Models;
+using EventMenager.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +27,12 @@ namespace EventMenager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddDbContext<EventMenagerContext>(options=>
+            options.UseSqlServer(Configuration.GetConnectionString("EventMenagerDatabase")));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -56,7 +65,7 @@ namespace EventMenager
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Player}/{action=Index}/{id?}");
             });
         }
     }
